@@ -1,4 +1,7 @@
-FROM ubuntu:latest
+FROM python:3.12-slim
 LABEL authors="agniaendie"
 
-ENTRYPOINT ["top", "-b"]
+COPY /src /tmp
+WORKDIR /tmp
+RUN pip install -r requirements.txt
+ENTRYPOINT ["python","ImageToObject.py"]
