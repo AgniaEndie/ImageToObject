@@ -10,7 +10,7 @@ def neural(image):
     # convert
 
     # return Response(image, mimetype='multipart/x-mixed-replace; boundary=frame')
-    return Response(image, mimetype='image/jpeg')
+    return Response(image.tobytes(), mimetype='image/jpeg')
 
 
 @app.route("/video/<id>")
