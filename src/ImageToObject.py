@@ -39,7 +39,7 @@ def video(id):
     response = requests.get(url, stream=True)
 
     # Check if the response is successful
-    if response.status_code == 200:
+    if response.status_code == 200 or response.status_code == 302 or response.status_code == 304:
         # Read the response content as bytes
         bytes = bytes()
         for chunk in response.iter_content(chunk_size=1024):
