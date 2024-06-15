@@ -17,8 +17,10 @@ def neural(image):
 def video(id):
     localCamera = cv2.VideoCapture(f"http://image-resize-service/resize/{id}")
     success, frame = localCamera.read()
-    ret, jpeg = cv2.imencode('.jpg', frame)
-    return neural(jpeg)
-
+    if success:
+        ret, jpeg = cv2.imencode('.jpg', frame)
+        return neural(jpeg)
+    else:
+        return "none"
 
 app.run("0.0.0.0", port=8082, debug=True)
