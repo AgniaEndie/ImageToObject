@@ -15,11 +15,12 @@ def neural(image):
 
 @app.route("/video/<id>")
 def video(id):
-    localCamera = cv2.VideoCapture(f"http://image-resize-service/resize/{id}")
+    address = f"http://image-resize-service/resize/{id}"
+    localCamera = cv2.VideoCapture(address)
     success, frame = localCamera.read()
     if success:
-        ret, jpeg = cv2.imencode('.jpg', frame)
-        return neural(jpeg)
+        #ret, jpeg = cv2.imencode('.jpg', frame)
+        return neural(frame)
     else:
         return "none"
 
