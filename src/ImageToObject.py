@@ -11,7 +11,7 @@ def neural(image):
 
 @app.route("/video/<id>")
 def video(id):
-    image = requests.get(f"http://image-resize/resize/{id}")
+    image = requests.get(f"http://image-resize-service/resize/{id}")
     return neural(image)
 
 
