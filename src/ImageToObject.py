@@ -1,31 +1,21 @@
-import requests
 import cv2
-from flask import *
-import os
+import numpy as np
+from flask import Flask, Response
+import requests
 
 app = Flask(__name__)
-os.environ["OPENCV_VIDEOIO_DEBUG"] = "1"
-os.environ["OPENCV_LOG_LEVEL"] = "debug"
-
 
 def neural(image):
-    # test
-    # convert
-
-    # return Response(image, mimetype='multipart/x-mixed-replace; boundary=frame')
-    return Response(image.tobytes(), mimetype='image/jpeg')
-
+    # Convert the image to JPEG format
+    ret, jpeg = cv2.imencode('.jpg', image)
+    return Response(jpeg.tobytes(), mimetype='image/jpeg')
 
 @app.route("/video/<id>")
 def video(id):
     address = f"http://image-resize-service/resize/{id}"
-    localCamera = cv2.VideoCapture(address)
-    success, frame = localCamera.read()
-    if success:
-        ret, jpeg = cv2.imencode('.jpg', frame)
-        return neural(jpeg)
-    else:
-        return "none"
+    response = requests.get(address)
+    frame = cv2.imdecode(np.frombuffer(response.content, np.uint8), cv2.IMREAD_COLOR)
+    return neural(frame)
 
-
-app.run("0.0.0.0", port=8082, debug=True)
+if __name__ == "__main__":
+    app.run("0.0.0.0", port=8082, debug=True)
