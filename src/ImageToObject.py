@@ -20,8 +20,8 @@ def neural(image):
 
 @app.route("/video/<id>")
 def video(id):
-    #address = f"http://image-resize-service/resize/{id}"
-    address = f'http://localhost:30085/resize/{id}'
+    address = f"http://image-resize-service/resize/{id}"
+    #address = f'http://localhost:30085/resize/{id}'
     localCamera = cv2.VideoCapture(address)
     success, frame = localCamera.read()
     if success:
